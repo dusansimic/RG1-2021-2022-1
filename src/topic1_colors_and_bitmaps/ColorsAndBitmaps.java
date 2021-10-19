@@ -42,7 +42,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-
+				pw.setColor(x, y, new Color(0, 0, x / image.getWidth(), 1));
 			}
 		}
 		
@@ -58,7 +58,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-
+				pw.setColor(x, y, new Color(x / image.getWidth(), y / image.getHeight(), 0, 1));
 			}
 		}
 		
@@ -78,7 +78,13 @@ public class ColorsAndBitmaps implements Drawing {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-				
+				double dx = (2.0 * x / w) - 1;                // Udaljenost po x-osi od centra (od -1 do 1).
+				double dy = (2.0 * y / h) - 1;                // Udaljenost po y-osi od centra (od -1 do 1).
+				double s = Math.sqrt(dx*dx + dy*dy);          // Udaljenost od centra.
+				if (s > 1) {
+					s = 1.0;
+				}
+				pw.setColor(x, y, Color.gray(1-s));           // Isto sto i new Color(1-s, 1-s, 1-s, 1).
 			}
 		}
 		
@@ -97,7 +103,13 @@ public class ColorsAndBitmaps implements Drawing {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-
+				double dx = (2.0 * x / w) - 1;                // Udaljenost po x-osi od centra (od -1 do 1).
+				double dy = (2.0 * y / h) - 1;                // Udaljenost po y-osi od centra (od -1 do 1).
+				double s = Math.sqrt(dx*dx + dy*dy);          // Udaljenost od centra.
+				if (s > 1) {
+					s = 1.0;
+				}
+				pw.setColor(x, y, new Color(1, 1, 1, 1-s));
 			}
 		}
 		
@@ -113,7 +125,27 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-
+				double s = Math.cos(2 * Math.PI * (x + 50) / 100) / 2 + 0.5; 
+				pw.setColor(x, y, Color.gray(s));
+			}
+		}
+		
+		return image;
+	}
+	
+	
+	public Image imgWaves() {
+		// Crvena i zelena komponenta su talasne funkcije po x odnosno po y, plava je uvek 1. 
+		
+		WritableImage image = new WritableImage(500, 400);
+		PixelWriter pw = image.getPixelWriter();
+		
+		for (int y = 0; y < image.getHeight(); y++) {
+			for (int x = 0; x < image.getWidth(); x++) {
+				double r = Math.cos(2 * Math.PI * x / 100) / 2 + 0.5; 
+				double g = Math.cos(2 * Math.PI * y / 100) / 2 + 0.5;
+				double b = 1;
+				pw.setColor(x, y, new Color(r, g, b, 1));
 			}
 		}
 		
@@ -127,7 +159,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				
+				pw.setColor(x, y, Color.hsb(0, x/image.getWidth(), y/image.getHeight()));
 			}
 		}
 		
@@ -141,7 +173,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				
+				pw.setColor(x, y, Color.hsb(360*x/image.getWidth(), 1, y/image.getHeight()));
 			}
 		}
 		
@@ -155,7 +187,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				
+				pw.setColor(x, y, Color.hsb(360*x/image.getWidth(), y/image.getHeight(), 1));
 			}
 		}
 		
@@ -172,7 +204,14 @@ public class ColorsAndBitmaps implements Drawing {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				double dx = (2.0 * x / w) - 1;                         // Udaljenost po x-osi od centra (od -1 do 1).
+				double dy = (2.0 * y / h) - 1;                         // Udaljenost po y-osi od centra (od -1 do 1).
+				double d = Math.sqrt(dx*dx + dy*dy);                   // Udaljenost od centra.
+				double phi = Math.atan2(dy, dx) * 360 / (2 * Math.PI); // Ugao (0-360)
 
+				if (d <= 1) {
+					pw.setColor(x, y, Color.hsb(phi, 1, 1));
+				}
 			}
 		}
 		
@@ -189,7 +228,14 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-
+				double dx = (2.0 * x / w) - 1;                         // Udaljenost po x-osi od centra (od -1 do 1).
+				double dy = (2.0 * y / h) - 1;                         // Udaljenost po y-osi od centra (od -1 do 1).
+				double d = Math.sqrt(dx*dx + dy*dy);                   // Udaljenost od centra.
+				double phi = Math.atan2(dy, dx) * 360 / (2 * Math.PI); // Ugao (0-360)
+				
+				if (d <= 1) {
+					pw.setColor(x, y, Color.hsb(phi, 1, d));
+				}
 			}
 		}
 		
@@ -206,27 +252,14 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-
-			}
-		}
-		
-		return image;
-	}
-	
-	
-	public Image imgRainbow() {
-		int w = 500;
-		int h = 500;
-		
-		WritableImage image = new WritableImage(w, h);
-		PixelWriter pw = image.getPixelWriter();
-		
-		double r0 = 0.5;
-		double r1 = 0.75;
-		
-		for (int y = 0; y < h; y++) {
-			for (int x = 0; x < w; x++) {
-
+				double dx = (2.0 * x / w) - 1;                         // Udaljenost po x-osi od centra (od -1 do 1).
+				double dy = (2.0 * y / h) - 1;                         // Udaljenost po y-osi od centra (od -1 do 1).
+				double d = Math.sqrt(dx*dx + dy*dy);                   // Udaljenost od centra.
+				double phi = Math.atan2(dy, dx) * 360 / (2 * Math.PI); // Ugao (0-360)
+				
+				if (d <= 1) {
+					pw.setColor(x, y, Color.hsb(phi, d, 1));
+				}
 			}
 		}
 		
@@ -247,7 +280,13 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-
+				Color c;
+				if ((x + y) % 2 == 0) {
+					c = x % (2*d) < d ? Color.RED : Color.WHITE;
+				} else {
+					c = y % (2*d) < d ? Color.RED : Color.WHITE;
+				}
+				pw.setColor(x, y, c);
 			}
 		}
 		
@@ -269,14 +308,16 @@ public class ColorsAndBitmaps implements Drawing {
 			imgLinearGradient2(),
 			imgRadialGradient(),
 			imgRadialGradientOpacity(),
+			
 			imgFixedHue(),
 			imgFixedSaturation(),
 			imgFixedBrightness(),
 			imgDisk1(),
 			imgDisk2(),
 			imgDisk3(),
-			imgRainbow(),
+
 			imgWave(),
+			imgWaves(),
 			imgTablecloth()
 		};
 		
