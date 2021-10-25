@@ -267,6 +267,30 @@ public class ColorsAndBitmaps implements Drawing {
 	}
 	
 	
+	public Image imgRainbow() {
+		int w = 500;
+		int h = 500;
+		
+		WritableImage image = new WritableImage(w, h);
+		PixelWriter pw = image.getPixelWriter();
+		
+		double r0 = 0.5;
+		double r1 = 0.75;
+		
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				double dx = (2.0 * x / w) - 1;                         // Udaljenost po x-osi od centra (od -1 do 1).
+				double dy = (2.0 * y / h) - 1;                         // Udaljenost po y-osi od centra (od -1 do 1).
+				double d = Math.sqrt(dx*dx + dy*dy);                   // Udaljenost od centra.
+				
+
+			}
+		}
+		
+		return image;
+	}
+	
+	
 	public Image imgTablecloth() {
 		// Stolnjak u hipsterskim kafanama
 		
@@ -315,6 +339,7 @@ public class ColorsAndBitmaps implements Drawing {
 			imgDisk1(),
 			imgDisk2(),
 			imgDisk3(),
+			imgRainbow(),
 
 			imgWave(),
 			imgWaves(),
@@ -328,7 +353,7 @@ public class ColorsAndBitmaps implements Drawing {
 	@GadgetColorPicker
 	Color colorBackground = new Color(0.2, 0.2, 0.2, 1);
 	
-	@GadgetInteger(min = 0, max = 13)
+	@GadgetInteger(min = 0, max = 14)
 	int imageIndex = 0;
 
 

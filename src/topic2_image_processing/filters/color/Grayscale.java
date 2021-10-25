@@ -11,13 +11,7 @@ public class Grayscale extends ColorFilter {
 
 	@Override
 	public Color processColor(Color input) {
-		double r = input.getRed();
-		double g = input.getGreen();
-		double b = input.getBlue();
-		
-		double s = (r + g + b) / 3;
-		
-		return new Color(s, s, s, input.getOpacity());
+		return input;
 	}
 	
 }	

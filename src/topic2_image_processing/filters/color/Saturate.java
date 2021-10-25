@@ -4,13 +4,20 @@ import javafx.scene.paint.Color;
 import topic2_image_processing.filters.ColorFilter;
 
 /**
- * Pravi "negativ" od date slike. Svaku komponentu (r, g, b) menja njenom suprotnom vrednoscu.
+ * Cini boje na slici zasicenijim u zavisnosti od parametra zadatog u konstruktoru.
  */
-public class Invert extends ColorFilter {
+public class Saturate extends ColorFilter {
+	final double k;
+	
+	
+	public Saturate(double k) {
+		this.k = k;
+	}
+
 
 	@Override
 	public Color processColor(Color input) {
 		return input;
 	}
-
-}
+	
+}	
