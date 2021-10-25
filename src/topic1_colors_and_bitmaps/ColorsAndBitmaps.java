@@ -153,6 +153,26 @@ public class ColorsAndBitmaps implements Drawing {
 	}
 
 	
+	public Image imgDiagonals() {
+		// Crvena i zelena komponenta su funkcija dijagonalnih udaljenosti (x+y, odnosno x-y osa).
+		// Kompononte boja se "pale" i "gase" periodicno duz tih osa. Plava je uvek 0.5.
+
+		WritableImage image = new WritableImage(500, 400);
+		PixelWriter pw = image.getPixelWriter();
+		
+		for (int y = 0; y < image.getHeight(); y++) {
+			for (int x = 0; x < image.getWidth(); x++) {
+				float r = (x + y) % 200 > 100 ? 0 : 1; 
+				float g = (x - y + 400) % 200 > 100 ? 0 : 1;
+				float b = 0.5f;
+				pw.setColor(x, y, new Color(r, g, b, 1));
+			}
+		}
+		
+		return image;
+	}
+
+	
 	public Image imgFixedHue() {
 		WritableImage image = new WritableImage(400, 400);
 		PixelWriter pw = image.getPixelWriter();
@@ -283,7 +303,19 @@ public class ColorsAndBitmaps implements Drawing {
 				double dy = (2.0 * y / h) - 1;                         // Udaljenost po y-osi od centra (od -1 do 1).
 				double d = Math.sqrt(dx*dx + dy*dy);                   // Udaljenost od centra.
 				
-
+				Color c;
+				
+				if (dy > 0) {
+					c = Color.hsb(120, 0.6, 0.7*(dy/2+0.5));
+				} else {
+					if (d >= r0 && d <= r1) {
+						double k = (d - r0) / (r1 - r0);
+						c = Color.hsb(360*(1-k) - 30, 0.7, 1);
+					} else {
+						c = Color.hsb(210, 1+dy, 1);
+					}
+				}
+				pw.setColor(x, y, c);
 			}
 		}
 		
@@ -316,6 +348,28 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		return image;
 	}
+	
+	
+	public Image imgPlot() {
+		// Grafik sinusoide
+		
+		int w = 400;
+		int h = 500;
+		
+		WritableImage image = new WritableImage(w, h);
+		PixelWriter pw = image.getPixelWriter();
+		
+		
+		for (int x = 0; x < w; x++) {
+			double dx = (2.0 * x / w) - 1;                              // dx je u [-1, 1)
+			double dy = Math.sin(dx*Math.PI);                           // dy je u [-1, 1]
+			int y = (int) Math.round((h-1) / 2.0 - dy * (h-1) / 2.0);   // Obrcemo y osu!
+					
+			pw.setColor(x, y, Color.WHITE);
+		}
+		
+		return image;
+	}
 
 	
 	// ============================================================================================
@@ -343,7 +397,10 @@ public class ColorsAndBitmaps implements Drawing {
 
 			imgWave(),
 			imgWaves(),
-			imgTablecloth()
+			imgDiagonals(),
+			imgTablecloth(),
+			
+			imgPlot()
 		};
 		
 		view.setImageSmoothing(false);
@@ -353,7 +410,7 @@ public class ColorsAndBitmaps implements Drawing {
 	@GadgetColorPicker
 	Color colorBackground = new Color(0.2, 0.2, 0.2, 1);
 	
-	@GadgetInteger(min = 0, max = 14)
+	@GadgetInteger(min = 0, max = 16)
 	int imageIndex = 0;
 
 

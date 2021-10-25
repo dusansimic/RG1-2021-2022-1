@@ -7,41 +7,42 @@ import mars.drawingx.application.Options;
 import mars.drawingx.drawing.Drawing;
 import mars.drawingx.drawing.DrawingUtils;
 import mars.drawingx.drawing.View;
-import mars.drawingx.gadgets.annotations.GadgetBoolean;
 import mars.drawingx.gadgets.annotations.GadgetDouble;
 import mars.drawingx.gadgets.annotations.GadgetImageChooser;
 import mars.geometry.Vector;
-import topic2_image_processing.filters.misc.Sobel;
+import topic2_image_processing.filters.BinaryFilter;
+import topic2_image_processing.filters.binary.Overlap;
 
 
-
-public class DemoSobel implements Drawing {
+public class DemoOverlap implements Drawing {
 	
 	@GadgetImageChooser
-	Image originalImage;
+	Image originalImage1, originalImage2;
 	
 	@GadgetDouble(min = 0, max = 1)
-	double angle = 0;
-	
-	@GadgetBoolean
-	Boolean applyFilter = false;
-	
+	Double opacity = 0.5;
+
 	
 	
 	@Override
 	public void init(View view) {
-		originalImage = new Image("images/couple.jpg");
+		originalImage1 = new Image("images/forecast.jpg");
+		originalImage2 = new Image("images/meterologist.jpg");
 	}
 	
 	
 	@Override
 	public void draw(View view) {
-		DrawingUtils.clear(view, Color.gray(0.125));
-		
-		Vector[][] gradient = Sobel.gradient(originalImage);
-		Image filteredImage = Sobel.imgEmboss(gradient, angle);
-		
-		view.drawImageCentered(Vector.ZERO, applyFilter ? filteredImage : originalImage);
+		DrawingUtils.clear(view, Color.gray(0.2));
+
+		BinaryFilter filter = new Overlap(opacity);
+		try {
+			Image filteredImage = filter.process(originalImage1, originalImage2);
+			view.drawImageCentered(Vector.ZERO, filteredImage);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			DrawingUtils.drawInfoText(view, e.toString());
+		}
 	}
 	
 	

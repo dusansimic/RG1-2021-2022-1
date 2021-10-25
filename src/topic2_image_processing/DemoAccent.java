@@ -11,36 +11,35 @@ import mars.drawingx.gadgets.annotations.GadgetBoolean;
 import mars.drawingx.gadgets.annotations.GadgetDouble;
 import mars.drawingx.gadgets.annotations.GadgetImageChooser;
 import mars.geometry.Vector;
-import topic2_image_processing.filters.misc.Sobel;
+import topic2_image_processing.filters.Filter;
+import topic2_image_processing.filters.color.Accent;
 
 
 
-public class DemoSobel implements Drawing {
+public class DemoAccent implements Drawing {
 	
 	@GadgetImageChooser
 	Image originalImage;
 	
-	@GadgetDouble(min = 0, max = 1)
-	double angle = 0;
+	@GadgetDouble(min = 0, max = 360)
+	double hue = 0;
 	
 	@GadgetBoolean
 	Boolean applyFilter = false;
-	
-	
+
 	
 	@Override
 	public void init(View view) {
-		originalImage = new Image("images/couple.jpg");
+		originalImage = new Image("images/Mona Lisa.jpg");
 	}
 	
 	
 	@Override
 	public void draw(View view) {
-		DrawingUtils.clear(view, Color.gray(0.125));
-		
-		Vector[][] gradient = Sobel.gradient(originalImage);
-		Image filteredImage = Sobel.imgEmboss(gradient, angle);
-		
+		DrawingUtils.clear(view, Color.gray(0.2));
+
+		Filter filter = new Accent(hue);
+		Image filteredImage = filter.process(originalImage);
 		view.drawImageCentered(Vector.ZERO, applyFilter ? filteredImage : originalImage);
 	}
 	

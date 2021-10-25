@@ -7,41 +7,39 @@ import mars.drawingx.application.Options;
 import mars.drawingx.drawing.Drawing;
 import mars.drawingx.drawing.DrawingUtils;
 import mars.drawingx.drawing.View;
-import mars.drawingx.gadgets.annotations.GadgetBoolean;
 import mars.drawingx.gadgets.annotations.GadgetDouble;
 import mars.drawingx.gadgets.annotations.GadgetImageChooser;
 import mars.geometry.Vector;
-import topic2_image_processing.filters.misc.Sobel;
+import topic2_image_processing.filters.Filter;
+import topic2_image_processing.filters.displacement.Swirl;
 
 
-
-public class DemoSobel implements Drawing {
+public class DemoSwirl implements Drawing {
 	
 	@GadgetImageChooser
 	Image originalImage;
 	
-	@GadgetDouble(min = 0, max = 1)
-	double angle = 0;
-	
-	@GadgetBoolean
-	Boolean applyFilter = false;
-	
-	
+	@GadgetDouble(min = 0, max = 16)
+	double f = 6;
+
+	@GadgetDouble(min = -1, max = 1)
+	double a = 0.012;
+
+
 	
 	@Override
 	public void init(View view) {
-		originalImage = new Image("images/couple.jpg");
+		originalImage = new Image("images/Mona Lisa.jpg");
 	}
 	
 	
 	@Override
 	public void draw(View view) {
-		DrawingUtils.clear(view, Color.gray(0.125));
-		
-		Vector[][] gradient = Sobel.gradient(originalImage);
-		Image filteredImage = Sobel.imgEmboss(gradient, angle);
-		
-		view.drawImageCentered(Vector.ZERO, applyFilter ? filteredImage : originalImage);
+		DrawingUtils.clear(view, Color.gray(0.2));
+
+		Filter filter = new Swirl(f, a);
+		Image filteredImage = filter.process(originalImage);
+		view.drawImageCentered(Vector.ZERO, filteredImage);
 	}
 	
 	
