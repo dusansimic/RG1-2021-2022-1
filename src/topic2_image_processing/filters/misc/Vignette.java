@@ -23,7 +23,7 @@ public class Vignette extends Filter {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-
+				pw.setColor(x, y, pr.getColor(x, y));
 			}
 		}
 		

@@ -30,7 +30,7 @@ public class DemoFilters implements Drawing {
 	@GadgetInteger(min = 0, max = 13)
 	Integer imageIndex = 0;
 	
-	@GadgetInteger(min = 0, max = 13)
+	@GadgetInteger(min = 0, max = 12)
 	Integer filterIndex = 0;
 	
 	@GadgetBoolean
