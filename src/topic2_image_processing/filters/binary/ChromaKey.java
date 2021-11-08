@@ -24,8 +24,18 @@ public class ChromaKey extends BinaryFilter {
 
 	@Override
 	public Image process(Image input1, Image input2) {
+		final int w = (int) input1.getWidth();
+		final int h = (int) input1.getHeight();
+		
+		if (input2.getWidth() != w || input2.getHeight() != h) {
+			throw new IllegalArgumentException("Input images must have the same size.");
+		}
+
+		WritableImage output = new WritableImage(w, h);
+		
 		// TODO
-		return input1;
+		
+		return output;
 	}
 	
 }
