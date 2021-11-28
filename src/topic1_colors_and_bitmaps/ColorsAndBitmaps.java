@@ -42,7 +42,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-
+				pw.setColor(x, y, new Color(0, 0, x / image.getWidth(), 1));
 			}
 		}
 		
@@ -58,7 +58,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-
+				pw.setColor(x, y, new Color(x / image.getWidth(), y / image.getHeight(), 0, 1));
 			}
 		}
 		
@@ -78,7 +78,14 @@ public class ColorsAndBitmaps implements Drawing {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-				
+				double dx = (2.0 * x / w) - 1; // 0-1   0-2   -1-1
+				double dy = (2.0 * y / h) - 1;
+
+				double d = Math.sqrt(dx*dx + dy*dy);
+				if (d > 1) d = 1;
+
+				// pw.setColor(x, y, new Color(1-d, 1-d, 1-d, 1));
+				pw.setColor(x, y, Color.gray(1-d));
 			}
 		}
 		
@@ -97,7 +104,13 @@ public class ColorsAndBitmaps implements Drawing {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				double dx = (2.0 * x / w) - 1; // 0-1   0-2   -1-1
+				double dy = (2.0 * y / h) - 1;
 
+				double d = Math.sqrt(dx*dx + dy*dy);
+				if (d > 1) d = 1;
+
+				pw.setColor(x, y, new Color(1, 1, 1, 1-d));
 			}
 		}
 		
@@ -113,7 +126,8 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-
+				double a = (Math.cos(2 * Math.PI * (x + 50) / 100) + 1) / 2;
+				pw.setColor(x, y, Color.gray(a));
 			}
 		}
 		
@@ -127,7 +141,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				
+				pw.setColor(x, y, Color.hsb(0, x / image.getWidth(), y / image.getHeight()));
 			}
 		}
 		
@@ -141,7 +155,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				
+				pw.setColor(x, y, Color.hsb(x / image.getWidth() * 360, 1, y / image.getHeight()));
 			}
 		}
 		
@@ -155,7 +169,7 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				
+				pw.setColor(x, y, Color.hsb(x / image.getWidth() * 360, y / image.getHeight(), 1));
 			}
 		}
 		
@@ -172,7 +186,21 @@ public class ColorsAndBitmaps implements Drawing {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				double dx = (2.0 * x / w) - 1;
+				double dy = (2.0 * y / h) - 1;
 
+				double d = Math.sqrt(dx*dx + dy*dy);
+				// Math.atan2 ce izracunati ugao naspram y ose i nalegao na x osu, tj. ugao za hue
+				// Posto se vraca rezultat u radijanima od -pi do pi, potrebno je da ga prebacimo u
+				// stepene i tu se onda rezultat deli sa 2pi. Onda se dobija vrednost od -1/2 do 1/2
+				// i da bi se dobio ugao pomnozi se sa 360.
+				// Ukoliko je potrebno nekoako drugacije orijentisati disk, preporuka je da se smao
+				// pomera interval sabiranjem konstantni na rezultat kolicnika.
+				double alpha = Math.atan2(dy, dx) / (2 * Math.PI) * 360;
+
+				if (d <= 1) {
+					pw.setColor(x, y, Color.hsb(alpha, 1, 1));
+				}
 			}
 		}
 		
@@ -189,7 +217,15 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				double dx = (2.0 * x / w) - 1;
+				double dy = (2.0 * y / h) - 1;
 
+				double d = Math.sqrt(dx*dx + dy*dy);
+				double alpha = Math.atan2(dy, dx) / (2 * Math.PI) * 360;
+
+				if (d <= 1) {
+					pw.setColor(x, y, Color.hsb(alpha, 1, d));
+				}
 			}
 		}
 		
@@ -206,7 +242,15 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				double dx = (2.0 * x / w) - 1;
+				double dy = (2.0 * y / h) - 1;
 
+				double d = Math.sqrt(dx*dx + dy*dy);
+				double alpha = Math.atan2(dy, dx) / (2 * Math.PI) * 360;
+
+				if (d <= 1) {
+					pw.setColor(x, y, Color.hsb(alpha, d, 1));
+				}
 			}
 		}
 		
@@ -226,7 +270,21 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				double dx = (2.0 * x / w) - 1;
+				double dy = (2.0 * y / h) - 1;
 
+				double d = Math.sqrt(dx*dx + dy*dy);
+
+				if (dy > 0) {
+					pw.setColor(x, y, Color.hsb(120, 1, dy / 2 + 0.25));
+				} else {
+					if (d >= r0 && d <= r1) {
+						double c = 1 - (d - r0) * 4;
+						pw.setColor(x, y, Color.hsb(-20 + c * 340, 1, 1));
+					} else {
+						pw.setColor(x, y, Color.hsb(240, 1 + dy, 1));
+					}
+				}
 			}
 		}
 		
@@ -247,7 +305,15 @@ public class ColorsAndBitmaps implements Drawing {
 		
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-
+				int xx = x % (d * 2);
+				int yy = y % (d * 2);
+				if (xx < 10) {
+					if (yy < 10) pw.setColor(x, y, Color.RED);
+					else pw.setColor(x, y, (xx + yy) % 2 == 0 ? Color.RED : Color.WHITE);
+				} else {
+					if (yy < 10) pw.setColor(x, y, (xx + yy) % 2 == 0 ? Color.WHITE : Color.RED);
+					else pw.setColor(x, y, Color.WHITE);
+				}
 			}
 		}
 		
