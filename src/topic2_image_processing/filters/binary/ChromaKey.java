@@ -13,11 +13,12 @@ import topic2_image_processing.filters.BinaryFilter;
  */
 public class ChromaKey extends BinaryFilter {
 	final double hue;            // Koji hue menjamo
-	final double delta = 20;     // Koliko odstupanje dozvoljavamo
+	final double delta;     // Koliko odstupanje dozvoljavamo
 
 
-	public ChromaKey(double hue) {
+	public ChromaKey(double hue, double delta) {
 		this.hue = hue;
+		this.delta = delta;
 	}
 
 
@@ -33,7 +34,21 @@ public class ChromaKey extends BinaryFilter {
 
 		WritableImage output = new WritableImage(w, h);
 		
-		// TODO
+		PixelReader pr1 = input1.getPixelReader();
+		PixelReader pr2 = input2.getPixelReader();
+		PixelWriter pw = output.getPixelWriter();
+
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				Color c1 = pr1.getColor(x, y);
+				Color c2 = pr2.getColor(x, y);
+
+				double d = Math.abs(c1.getHue() - this.hue);
+				if (d > 180) d = 360 - d;
+
+				pw.setColor(x, y, d > this.delta ? c1 : c2);
+			}
+		}
 		
 		return output;
 	}

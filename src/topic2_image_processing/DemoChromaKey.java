@@ -21,6 +21,9 @@ public class DemoChromaKey implements Drawing {
 
 	@GadgetDouble(min = 0, max = 360)
 	double hue = 120;
+
+	@GadgetDouble(min = 0, max = 50)
+	double delta = 20;
 	
 	
 	@Override
@@ -34,7 +37,7 @@ public class DemoChromaKey implements Drawing {
 	public void draw(View view) {
 		DrawingUtils.clear(view, Color.gray(0.2));
 
-		BinaryFilter filter = new ChromaKey(hue);
+		BinaryFilter filter = new ChromaKey(hue, delta);
 		try {
 			Image filteredImage = filter.process(originalImage1, originalImage2);
 			view.drawImageCentered(Vector.ZERO, filteredImage);
