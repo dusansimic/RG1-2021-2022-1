@@ -7,6 +7,7 @@ import mars.drawingx.drawing.DrawingUtils;
 import mars.drawingx.drawing.View;
 import mars.drawingx.gadgets.annotations.GadgetDouble;
 import mars.drawingx.gadgets.annotations.GadgetInteger;
+import mars.geometry.Vector;
 
 
 public class RegularPolygon implements Drawing {
@@ -19,12 +20,20 @@ public class RegularPolygon implements Drawing {
 	@GadgetDouble(min = 0, max = 1)
 	double alpha = 0.0;                        // Ugao pocetnog temena (u okretima)
 	
-	
+	private Vector getVertex(int i) {
+		return Vector.polar(r, 1.0 * i / n + alpha);
+	}
 	
 	@Override
 	public void draw(View view) {
 		DrawingUtils.clear(view, Color.hsb(0, 0, 0.2));
-		// TODO
+
+		view.setStroke(Color.WHITE);
+		view.setLineWidth(2);
+
+		for (int i = 0; i < n; i++) {
+			view.strokeLine(getVertex(i), getVertex(i + 1));
+		}
 	}
 	
 	

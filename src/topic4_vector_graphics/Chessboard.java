@@ -8,6 +8,7 @@ import mars.drawingx.drawing.View;
 import mars.drawingx.gadgets.annotations.GadgetColorPicker;
 import mars.drawingx.gadgets.annotations.GadgetDouble;
 import mars.drawingx.gadgets.annotations.GadgetInteger;
+import mars.geometry.Vector;
 
 
 public class Chessboard implements Drawing {
@@ -32,7 +33,16 @@ public class Chessboard implements Drawing {
 	@Override
 	public void draw(View view) {
 		DrawingUtils.clear(view, Color.gray(0.1));
-		// TODO
+		
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				Color c = (i + j) % 2 == 0 ? c2 : c1;
+				view.setFill(c);
+
+				Vector teme = new Vector(j, i).mul(new Vector(d)).sub(new Vector(d * n / 2, d * m / 2));
+				view.fillRect(teme, new Vector(d));
+			}
+		}
 	}
 	
 	
