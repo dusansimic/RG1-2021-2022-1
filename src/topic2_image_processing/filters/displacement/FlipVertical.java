@@ -10,7 +10,7 @@ public class FlipVertical extends DisplacementFilter {
 	
 	@Override
 	public Vector source(Vector dst, Vector dim) {
-		return new Vector(dst.x, dst.y);
+		return new Vector(dim.x - dst.x, dst.y);
 	}
 	
 }

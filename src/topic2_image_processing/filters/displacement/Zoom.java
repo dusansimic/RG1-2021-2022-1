@@ -18,7 +18,7 @@ public class Zoom extends DisplacementFilter {
 	
 	@Override
 	public Vector source(Vector dst, Vector dim) {
-		return new Vector(dst.x, dst.y);
+		return new Vector(dst.x / this.k, dst.y / this.k);
 	}
 	
 }

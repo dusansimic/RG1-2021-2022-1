@@ -19,7 +19,7 @@ public class Colorize extends ColorFilter {
 
 	@Override
 	public Color processColor(Color input) {
-		return input;
+		return Color.hsb(this.hue, this.saturation, input.getBrightness());
 	}
 	
 }

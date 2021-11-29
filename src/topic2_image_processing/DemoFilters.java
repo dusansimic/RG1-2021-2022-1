@@ -34,7 +34,7 @@ public class DemoFilters implements Drawing {
 	Integer filterIndex = 0;
 	
 	@GadgetBoolean
-	Boolean applyFilter = false;
+	Boolean applyFilter = true;
 	
 	
 	Filter[] filters = {			

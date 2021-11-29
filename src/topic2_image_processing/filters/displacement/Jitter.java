@@ -22,7 +22,16 @@ public class Jitter extends DisplacementFilter {
 	
 	@Override
 	public Vector source(Vector dst, Vector dim) {
-		return new Vector(dst.x, dst.y);
+		double phi = random.nextDouble();
+		double d = random.nextDouble() * this.r;
+
+		return dst.add(Vector.polar(d, phi));
+		// double alpha = Math.random() * 2 * Math.PI;
+		// double d = random.nextDouble() * this.r;
+		// double dx = Math.cos(alpha) * d;
+		// double dy = Math.sin(alpha) * d;
+
+		// return new Vector(dst.x + dx, dst.y + dy);
 	}
 	
 }

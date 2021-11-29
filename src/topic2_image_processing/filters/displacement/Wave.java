@@ -20,7 +20,8 @@ public class Wave extends DisplacementFilter {
 
 	@Override
 	public Vector source(Vector dst, Vector dim) {
-		return new Vector(dst.x, dst.y);
+		double s = Math.sin((dst.x / this.wavelength) * 2 * Math.PI) * this.amplitude;
+		return new Vector(dst.x, dst.y + s);
 	}
 	
 }

@@ -17,7 +17,11 @@ public class Saturate extends ColorFilter {
 
 	@Override
 	public Color processColor(Color input) {
-		return input;
+		double h = input.getHue();
+		double s = input.getSaturation();
+		double b = input.getBrightness();
+
+		return Color.hsb(h, s + (1 - s) * this.k, b);
 	}
 	
 }	

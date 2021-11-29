@@ -10,7 +10,7 @@ public class Rotate180 extends DisplacementFilter {
 
 	@Override
 	public Vector source(Vector dst, Vector dim) {
-		return new Vector(dst.x, dst.y);
+		return new Vector(dim.x - (dst.x + 1), dim.y - (dst.y + 1));
 	}
 	
 }
