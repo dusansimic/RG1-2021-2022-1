@@ -1,6 +1,8 @@
 package topic6_animation;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 import mars.drawingx.application.DrawingApplication;
 import mars.drawingx.drawing.Drawing;
 import mars.drawingx.drawing.DrawingUtils;
@@ -49,8 +51,17 @@ public class MorphingAndKeyframes implements Drawing {
 	@Override
 	public void init(View view) {
 		// Generisemo poligone na slucajan nacin unutar zadatih granica.
+		
+		polygons = new Vector[maxNKeyframes][maxNVertices];
+		hues = new double[maxNKeyframes];
 
-		// TODO
+		for (int k = 0; k < maxNKeyframes; k++) {
+			
+			for (int i = 0; i < maxNVertices; i++) {
+				polygons[k][i] = Vector.randomInBox(fieldP, fieldD);
+			}
+			hues[k] = 360 * Math.random();
+		}		
 	}
 	
 	
@@ -59,10 +70,43 @@ public class MorphingAndKeyframes implements Drawing {
 		DrawingUtils.clear(view, Color.hsb(0, 0, 0.2));
 	
 		if (showKeyframes) {
-			// TODO
+			view.setLineDashes(4);                          // Isprekidana linija, crtice i razmaci su duzine 4.
+			view.setLineCap(StrokeLineCap.BUTT);            // Krajevi linija su ravni.
+			view.setLineJoin(StrokeLineJoin.ROUND);         // Spojevi linija su zaobljeni.
+			view.setLineWidth(1);
+			view.setStroke(Color.hsb(0, 0, 1, 0.2));
+			for (int k = 0; k < nStates; k++) {
+				
+				view.strokePolygon(nVertices, polygons[k]);
+				
+			}			
 		}
-
-		// tODO
+		view.setLineDashes(null); 
+		
+		
+		
+		
+		int k0 = (int)(time / stateDuration) % nStates;
+		int k1 = (k0 + 1) % nStates;
+		
+		double t = (time % stateDuration) / stateDuration;
+		
+		
+		
+		
+		t = smootherstep(t);
+		
+		Vector[] polygon = new Vector[nVertices];
+		for (int i = 0; i < nVertices; i++) {
+			polygon[i] = Vector.lerp(polygons[k0][i], polygons[k1][i], t);
+		}
+		
+		Color c0 = Color.hsb(hues[k0], 0.7, 0.7, 0.7); 
+		Color c1 = Color.hsb(hues[k1], 0.7, 0.7, 0.7);
+		
+		view.setFill(c0.interpolate(c1, t));
+		view.fillPolygon(polygon);
+		
 	}
 	
 	
