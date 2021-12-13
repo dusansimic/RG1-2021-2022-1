@@ -57,6 +57,7 @@ public class Bezier3_Cubic implements Drawing {
 			view.moveTo(p0);
 			view.bezierCurveTo(p1, p2, p3);
 			view.stroke();
+			view.fill();
 		}
 
 		if (drawDots) {

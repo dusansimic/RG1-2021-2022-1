@@ -7,6 +7,7 @@ import mars.drawingx.drawing.DrawingUtils;
 import mars.drawingx.drawing.View;
 import mars.drawingx.gadgets.annotations.GadgetAnimation;
 import mars.drawingx.gadgets.annotations.GadgetBoolean;
+import mars.drawingx.gadgets.annotations.GadgetInteger;
 import mars.drawingx.gadgets.annotations.GadgetVector;
 import mars.geometry.Vector;
 
@@ -35,7 +36,9 @@ public class Bezier2_Quadratic implements Drawing {
 	@GadgetBoolean
 	boolean drawDots = false;
 	
-	int n = 64; 
+	@GadgetInteger
+	int n = 64;
+	
 	double r = 6;
 	
 
