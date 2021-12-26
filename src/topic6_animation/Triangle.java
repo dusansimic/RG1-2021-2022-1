@@ -41,7 +41,42 @@ public class Triangle implements Drawing {
 		view.setLineWidth(4);
 		view.strokePolygon(p0, p1, p2);
 		
-		// TODO
+		double l0 = p0.distanceTo(p1);
+		double l1 = p1.distanceTo(p2);
+		double l2 = p2.distanceTo(p0);
+		double l = l0 + l1 + l2;
+
+		double dt0 = l0 / l;
+		double dt1 = l1 / l;
+		double dt2 = l2 / l;
+
+		double s = speed * time;
+		double t = Numeric.mod(s / l, 1);
+
+		double t0 = 0;
+		double t1 = t0 + dt0;
+		double t2 = t1 + dt1;
+
+		Vector p;
+		Vector k;
+		double keof;
+		if (t < t1) {
+			p = p0;
+			k = p1;
+			keof = (t - t0) / dt0;
+		} else if (t < t2) {
+			p = p1;
+			k = p2;
+			keof = (t - t1) / dt1;
+		} else {
+			p = p2;
+			k = p0;
+			keof = (t - t2) / dt2;
+		}
+
+		Vector krug = Vector.lerp(p, k, keof);
+		view.setFill(Color.ORANGERED);
+		view.fillCircleCentered(krug, 16);
 	}
 	
 	
