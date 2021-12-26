@@ -3,6 +3,10 @@ package topic5_procedural_generation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.checkerframework.checker.units.qual.C;
+
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import mars.drawingx.application.DrawingApplication;
@@ -30,14 +34,14 @@ public class Cheese implements Drawing {
 		generateHoles();
 	}
 	
-	
 	double getMaxRadius(Vector c) {
-		return 0;
+		double minR = holes.stream().mapToDouble(C -> c.distanceTo(C.c) - C.r).min().orElse(Double.POSITIVE_INFINITY);
+		return Math.min(minR - gap, Hole.R_MAX);
 	}
 	
 	
 	Vector getCenter() {
-		return null;
+		return Vector.randomInBox(box);
 	}
 	
 	
@@ -45,6 +49,17 @@ public class Cheese implements Drawing {
 		holes = new ArrayList<>();
 		int nSuccesiveFails = 0;
 
+		do {
+			Vector c = getCenter();
+			double r = getMaxRadius(c);
+
+			if (r >= Hole.R_MIN) {
+				holes.add(new Hole(c, r));
+				nSuccesiveFails = 0;
+			} else {
+				nSuccesiveFails++;
+			}
+		} while (nSuccesiveFails < 10_000);
 	}
 	
 	@Override
@@ -53,9 +68,14 @@ public class Cheese implements Drawing {
 		
 		for (Hole hole : holes) {
 			// Spoljni krug
-
+			view.setFill(Color.hsb(50, 0.5, 1));
+			view.fillCircleCentered(hole.c, hole.r);
 
 			// Unutrašnji krug sa senkom
+			view.setFill(Color.hsb(50, 1, 0.5));
+			view.setEffect(new InnerShadow(20, 10, -10, Color.BLACK));
+			view.fillCircleCentered(hole.c, hole.r - border);
+			view.setEffect(null);
 
 		}
 	}
