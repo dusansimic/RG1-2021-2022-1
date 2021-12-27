@@ -24,18 +24,34 @@ public class Box_Ticks extends Box {
 		this.t = 0;
 	}		
 
+	private void update() {
+		if (p.x < 0 || p.x > areaD.x) {
+			v = v.mul(new Vector(-1, 1));
+		} else if (p.y < 0 || p.y > areaD.y) {
+			v = v.mul(new Vector(1, -1));
+		}
+
+		p = p.add(v.mul(intervalTick));
+		t += intervalTick;
+	}
 	
-	// TODO
+	private void updateTo(double time) {
+		while (t + intervalTick <= time) {
+			update();
+		}
+	}
 	
 	
 	@Override
 	public Vector getPosition(double time) {
+		updateTo(time);
 		return p;
 	}
 	
 	
 	@Override
 	public Vector getVelocity(double time) {
+		updateTo(time);
 		return v;
 	}
 

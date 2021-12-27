@@ -32,7 +32,12 @@ public class BouncyBoxes implements Drawing {
 	{
 		boxes = new Box[nBoxes];
 		for (int i = 0; i < nBoxes; i++) {
-			// TODO
+			boxes[i] = new Box_Ticks(
+				areaD,
+				Vector.randomInBox(areaD),
+				Vector.randomGaussian(100),
+				Color.hsb(23 * i, 1, 1)
+			);
 		}
 	}
 	
@@ -41,7 +46,21 @@ public class BouncyBoxes implements Drawing {
 	public void draw(View view) {
 		DrawingUtils.clear(view, Color.hsb(0, 0, 0.3));
 		
-		// TODO
+		view.setFill(Color.hsb(0, 0, 0, 0.3));
+		view.fillRect(areaP.sub(r), areaD.add(r.mul(2))); // Mnozi se sa 2 zato sto se dijagonala produzila za 2r
+
+		view.setStroke(Color.WHITE);
+		for (Box box : boxes) {
+			Vector p = box.getPosition(time).add(areaP);
+			Vector v = box.getVelocity(time);
+
+			view.setFill(box.getColor());
+			view.fillRectCentered(p, r);
+
+			if (showVelocities) {
+				DrawingUtils.drawArrow(view, p, v.mul(0.3));
+			}
+		}
 	}
 	
 	
