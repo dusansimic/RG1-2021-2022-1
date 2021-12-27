@@ -1,12 +1,15 @@
 package topic6_animation;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
 import mars.drawingx.application.DrawingApplication;
 import mars.drawingx.drawing.Drawing;
 import mars.drawingx.drawing.DrawingUtils;
 import mars.drawingx.drawing.View;
 import mars.drawingx.gadgets.annotations.GadgetAnimation;
 import mars.drawingx.gadgets.annotations.GadgetDouble;
+import mars.geometry.Vector;
+import mars.utils.Numeric;
 
 
 public class Waiting2 implements Drawing {
@@ -33,8 +36,16 @@ public class Waiting2 implements Drawing {
 	@Override
 	public void draw(View view) {
 		DrawingUtils.clear(view, Color.gray(0.25));
-		
-		// TODO
+
+		double angle = time * rotationalSpeed;
+		double angleD = (1 + alpha * Numeric.sinT(angle)) * 0.5;
+
+		double angleStart = angle - angleD/2;
+
+		view.setStroke(Color.hsb(60 * time, 1, 1));
+		view.setLineCap(StrokeLineCap.BUTT);
+		view.setLineWidth(width);
+		view.strokeArcCentered(Vector.ZERO, new Vector(r), angleStart, angleD);
 	}
 	
 	
